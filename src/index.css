@@ -44,11 +44,11 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--tannin-dark-purple)), hsl(var(--tannin-beetroot)));
-    --gradient-secondary: linear-gradient(45deg, hsl(var(--tannin-beetroot)), hsl(var(--tannin-gold)));
-    --gradient-hero: linear-gradient(180deg, hsl(267 81% 5%), hsl(var(--tannin-dark-purple)), hsl(var(--tannin-beetroot)));
-    --gradient-about: linear-gradient(180deg, hsl(var(--tannin-beetroot)), hsl(267 60% 10%), hsl(var(--tannin-dark-purple)));
+    /* Gradients - Much darker and less saturated */
+    --gradient-primary: linear-gradient(135deg, hsl(267 81% 8%), hsl(267 81% 12%));
+    --gradient-secondary: linear-gradient(45deg, hsl(340 67% 8%), hsl(42 90% 15%));
+    --gradient-hero: linear-gradient(180deg, hsl(267 81% 3%), hsl(267 81% 8%), hsl(267 81% 5%));
+    --gradient-about: linear-gradient(180deg, hsl(267 81% 4%), hsl(267 81% 8%), hsl(267 81% 6%));
     
     /* Animations */
     --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);

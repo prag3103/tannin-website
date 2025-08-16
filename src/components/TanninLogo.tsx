@@ -7,16 +7,11 @@ interface TanninLogoProps {
 
 const TanninLogo = ({ size = 60, className = "" }: TanninLogoProps) => {
   return (
-    <motion.div 
-      className={`relative ${className}`}
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 300 }}
-    >
+    <div className={`relative ${className}`}>
       <svg 
         width={size} 
         height={size} 
-        viewBox="0 0 100 100" 
-        className="wine-bottle-float"
+        viewBox="0 0 100 100"
       >
         {/* Hexagonal background */}
         <defs>
@@ -28,36 +23,29 @@ const TanninLogo = ({ size = 60, className = "" }: TanninLogoProps) => {
         </defs>
         
         <polygon
-          points="50,5 85,25 85,75 50,95 15,75 15,25"
+          points="50,8 80,26 80,74 50,92 20,74 20,26"
           fill="url(#hexGradient)"
-          className="shadow-glow"
         />
         
-        {/* Wine glass silhouette */}
+        {/* Wine glass silhouette - exact match to reference */}
         <path
-          d="M35 30 L35 45 Q35 55 42 60 L42 75 L58 75 L58 60 Q65 55 65 45 L65 30 Z M32 25 L68 25 L68 30 L32 30 Z"
+          d="M38 32 L38 48 Q38 58 44 62 L44 78 L56 78 L56 62 Q62 58 62 48 L62 32 Z M35 28 L65 28 L65 32 L35 32 Z"
           fill="#26084F"
-          opacity="0.9"
         />
         
         {/* Stem */}
-        <rect x="47" y="75" width="6" height="15" fill="#26084F" opacity="0.9" />
+        <rect x="48" y="78" width="4" height="10" fill="#26084F" />
         
         {/* Base */}
-        <ellipse cx="50" cy="92" rx="12" ry="3" fill="#26084F" opacity="0.9" />
+        <ellipse cx="50" cy="90" rx="8" ry="2" fill="#26084F" />
       </svg>
       
-      <motion.div 
-        className="absolute -bottom-2 left-1/2 transform -translate-x-1/2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
+      <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2">
         <span className="text-tannin-gold font-miluena text-xs font-bold tracking-wider">
           tannin
         </span>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

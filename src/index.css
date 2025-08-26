@@ -8,8 +8,8 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Tannin Brand Colors */
-    --tannin-dark-purple: 267 81% 17%; /* #26084F */
+    /* Tannin Brand Colors - adjusted for a more pinkish-wine hue and lower saturation */
+    --tannin-dark-purple: 330 40% 12%; /* Adjusted hue and saturation for a muted, pinkish-wine */
     --tannin-beetroot: 340 67% 22%; /* #4F0825 */
     --tannin-gold: 42 90% 45%; /* #D1A01B */
     
@@ -44,11 +44,11 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Gradients - Much darker and less saturated */
-    --gradient-primary: linear-gradient(135deg, hsl(267 81% 8%), hsl(267 81% 12%));
+    /* Gradients - Adjusted for a more pinkish-wine hue and lower saturation */
+    --gradient-primary: linear-gradient(135deg, hsl(330 40% 6%), hsl(330 40% 10%));
     --gradient-secondary: linear-gradient(45deg, hsl(340 67% 8%), hsl(42 90% 15%));
-    --gradient-hero: linear-gradient(180deg, hsl(267 81% 3%), hsl(267 81% 8%), hsl(267 81% 5%));
-    --gradient-about: linear-gradient(180deg, hsl(267 81% 4%), hsl(267 81% 8%), hsl(267 81% 6%));
+    --gradient-hero: linear-gradient(180deg, hsl(330 40% 6%), hsl(330 40% 2%), hsl(330 40% 6%));
+    --gradient-about: linear-gradient(180deg, hsl(330 40% 6%), hsl(330 40% 3%), hsl(330 40% 6%));
     
     /* Animations */
     --transition-smooth: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -60,7 +60,8 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --tannin-dark-purple: 267 81% 17%;
+    /* Tannin Brand Colors - Adjusted for a more pinkish-wine hue and lower saturation */
+    --tannin-dark-purple: 330 40% 12%;
     --tannin-beetroot: 340 67% 22%;
     --tannin-gold: 42 90% 45%;
     
@@ -207,4 +208,15 @@ All colors MUST be HSL.
     font-weight: 700;
     letter-spacing: 0.02em;
   }
+}
+
+/* --- Added for the video background --- */
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2; /* Ensure it's behind the particles and content */
 }

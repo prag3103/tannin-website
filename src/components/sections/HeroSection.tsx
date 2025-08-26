@@ -1,11 +1,27 @@
 import { motion } from 'framer-motion';
-import TanninLogo from '../TanninLogo';
+import React from 'react';
+import tanninAnim from '../../assets/tannin website video 2.mp4'; 
 
 const HeroSection = () => {
   return (
     <div className="h-screen flex items-center justify-center relative bg-gradient-hero">
-      {/* Background particles/bubbles effect */}
-      <div className="absolute inset-0 overflow-hidden">
+      
+      {/* Video Container - This ensures proper positioning */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover opacity-30"
+        >
+          <source src={tanninAnim} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      {/* Background particles/bubbles effect - Now layered above the video */}
+      <div className="absolute inset-0 overflow-hidden z-10">
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
@@ -27,16 +43,7 @@ const HeroSection = () => {
         ))}
       </div>
 
-      <div className="text-center z-10 max-w-4xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="mb-8"
-        >
-          <TanninLogo size={120} className="mx-auto mb-8" />
-        </motion.div>
-
+      <div className="text-center z-20 max-w-4xl mx-auto px-6">
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

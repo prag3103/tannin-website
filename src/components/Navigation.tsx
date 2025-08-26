@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import TanninLogo from './TanninLogo';
+import logo from '../assets/image_1-removebg-preview.png';
 
 interface NavigationProps {
   activeSection: number;
@@ -25,7 +25,11 @@ const Navigation = ({ activeSection }: NavigationProps) => {
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="flex items-center space-x-3">
-          <TanninLogo size={40} />
+          <img 
+            src={logo} 
+            alt="Tannin Logo" 
+            className="h-32 w-auto" // Increased height to h-32
+          />
         </div>
 
         <div className="bg-tannin-gold/10 backdrop-blur-md rounded-full px-8 py-3 border border-tannin-gold/20">

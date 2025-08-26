@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Navigation from './Navigation';
 import HeroSection from './sections/HeroSection';
 import AboutSection from './sections/AboutSection';
@@ -9,21 +9,26 @@ import ContactSection from './sections/ContactSection';
 
 const ScrollingWebsite = () => {
   const [activeSection, setActiveSection] = useState(0);
-  const { scrollYProgress } = useScroll();
-
-  // Transform scroll to section progress
-  const section1Progress = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-  const section2Progress = useTransform(scrollYProgress, [0.2, 0.4], [0, 1]);
-  const section3Progress = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
-  const section4Progress = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
-  const section5Progress = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrolled = window.scrollY;
-      const viewportHeight = window.innerHeight;
-      const section = Math.floor(scrolled / viewportHeight);
-      setActiveSection(Math.min(section, 4));
+      const sections = ['hero', 'about', 'catalogue', 'experience', 'contact'];
+      let currentSection = 0;
+      let minDistance = Infinity;
+      
+      sections.forEach((id, index) => {
+        const element = document.getElementById(id);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          const distance = Math.abs(rect.top - window.innerHeight / 2);
+          if (distance < minDistance) {
+            minDistance = distance;
+            currentSection = index;
+          }
+        }
+      });
+      
+      setActiveSection(currentSection);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -35,56 +40,29 @@ const ScrollingWebsite = () => {
       <Navigation activeSection={activeSection} />
       
       {/* Hero Section */}
-      <motion.section 
-        className="h-screen relative overflow-hidden"
-        style={{ opacity: useTransform(section1Progress, [0.8, 1], [1, 0.3]) }}
-      >
+      <section id="hero" className="min-h-screen relative">
         <HeroSection />
-      </motion.section>
+      </section>
 
       {/* About Section */}
-      <motion.section 
-        className="h-screen relative overflow-hidden"
-        style={{ 
-          opacity: useTransform(section2Progress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.3]),
-          y: useTransform(section1Progress, [0, 1], [100, 0])
-        }}
-      >
+      <section id="about" className="min-h-screen relative">
         <AboutSection />
-      </motion.section>
+      </section>
 
       {/* Catalogue Section */}
-      <motion.section 
-        className="h-screen relative overflow-hidden"
-        style={{ 
-          opacity: useTransform(section3Progress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.3]),
-          y: useTransform(section2Progress, [0, 1], [100, 0])
-        }}
-      >
+      <section id="catalogue" className="relative">
         <CatalogueSection />
-      </motion.section>
+      </section>
 
       {/* Experience Section */}
-      <motion.section 
-        className="h-screen relative overflow-hidden"
-        style={{ 
-          opacity: useTransform(section4Progress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.3]),
-          y: useTransform(section3Progress, [0, 1], [100, 0])
-        }}
-      >
+      <section id="experience" className="min-h-screen relative">
         <ExperienceSection />
-      </motion.section>
+      </section>
 
       {/* Contact Section */}
-      <motion.section 
-        className="h-screen relative overflow-hidden"
-        style={{ 
-          opacity: useTransform(section5Progress, [0, 0.2], [0, 1]),
-          y: useTransform(section4Progress, [0, 1], [100, 0])
-        }}
-      >
+      <section id="contact" className="min-h-screen relative">
         <ContactSection />
-      </motion.section>
+      </section>
     </div>
   );
 };

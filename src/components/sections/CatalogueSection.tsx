@@ -1,41 +1,59 @@
 import { motion } from 'framer-motion';
+// Import local images using the '@' alias for reliable pathing
+import citrineImage from '@/assets/citrine.png';
+import carotaImage from '@/assets/carota.png';
+import scarlettImage from '@/assets/scarlett.png';
+import pinechillImage from '@/assets/pinechill.png';
+import jadeiteImage from '@/assets/jadeite.png';
+
 
 const CatalogueSection = () => {
+  // Array of wine data, now using imported image URLs
   const wines = [
     {
-      name: "SCARLETT",
-      description: "Beetroot wine with a tinge of celery",
-      color: "#8B1538",
-      gradient: "from-red-900 to-red-700"
-    },
-    {
-      name: "PINECHILL",
-      description: "Pineapple wine with a tinge of chilli",
-      color: "#FF6B35",
-      gradient: "from-orange-600 to-yellow-500"
-    },
-    {
       name: "CITRINE",
-      description: "Orange wine",
+      description: "The sweetest of them all. Bursting with the sun-kissed essence of ripe oranges, Citrine is the most playful and indulgent wine in our collection. Sweet, vibrant, and irresistibly smooth, it delights the palate with layers of citrusy freshness balanced by a honeyed finish. Every sip feels bright and golden — a cheerful celebration in a glass.",
       color: "#FFB830",
-      gradient: "from-orange-400 to-yellow-400"
-    },
-    {
-      name: "JADEITE",
-      description: "Gooseberry wine with a tinge of ginger",
-      color: "#4A7C59",
-      gradient: "from-green-600 to-green-400"
+      gradient: "from-[#6F5D48] to-[#39322A]",
+      image: citrineImage, // Use the imported image variable
+      titleColor: '#b53d1b', // Added a new property for the title color
     },
     {
       name: "CAROTA",
-      description: "Carrot wine",
+      description: "Carota captures the natural essence of carrots in a glass — a gentle sweetness layered with a soft, earthy bitterness that lingers gracefully on the palate. This delicate balance creates a refreshing and sophisticated wine, offering a truly one-of-a-kind tasting experience.",
       color: "#FF7F50",
-      gradient: "from-orange-500 to-orange-300"
-    }
+      gradient: "from-[#6F5D48] to-[#39322A]",
+      image: carotaImage, // Use the imported image variable
+      titleColor: '#c86810', // Default color for other titles
+    },
+    {
+      name: "SCARLETT",
+      description: "Nothing like you’ve ever tasted before. Bold and unconventional, Scarlet transforms the earthy richness of beetroots into a wine experience unlike any other. Its deep ruby hue mirrors its intensity — a perfect balance of subtle sweetness, gentle earthiness, and a smooth, velvety finish. Each sip surprises the palate, offering layers of flavor both familiar and entirely new.",
+      color: "#8B1538",
+      gradient: "from-[#6F5D48] to-[#39322A]",
+      image: scarlettImage, // Use the imported image variable
+      titleColor: '#8b1111', // Default color for other titles
+    },
+    {
+      name: "PINECHILL",
+      description: "A tropical spark with a fiery twist. Juicy, golden pineapples bring a burst of tropical sweetness, while a subtle hint of chilli teases the palate with warmth. Pinechill is bright, playful, and adventurous — the perfect harmony of refreshing fruit and gentle spice. Each sip begins smooth and vibrant, finishing with a lively kick that keeps you coming back for more.",
+      color: "#FF6B35",
+      gradient: "from-[#6F5D48] to-[#39322A]",
+      image: pinechillImage, // Use the imported image variable
+      titleColor: '#D1A01B', // Default color for other titles
+    },
+    {
+      name: "JADEITE",
+      description: "Where tart meets warmth. Handpicked gooseberries bring a crisp tang, while a gentle touch of ginger adds warmth and depth. Bright, zesty, and soothing all at once — Jadeite is a refreshing balance of contrast in every sip. Each glass lingers with a playful sharpness mellowed by spice, making it both invigorating and comforting. A wine crafted for those who savor vibrancy with a twist.",
+      color: "#4A7C59",
+      gradient: "from-[#6F5D48] to-[#39322A]",
+      image: jadeiteImage, // Use the imported image variable
+      titleColor: '#6a9f27', // Default color for other titles
+    },
   ];
 
   return (
-    <div className="h-screen flex flex-col items-center justify-center bg-gradient-hero px-6">
+    <div className="flex flex-col items-center pt-24 pb-16 bg-gradient-about">
       <motion.h2
         initial={{ opacity: 0, y: -50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -45,176 +63,58 @@ const CatalogueSection = () => {
         OUR COLLECTION
       </motion.h2>
 
-      {/* Grid Layout: 3 on top, 2 on bottom */}
-      <div className="max-w-7xl mx-auto">
-        {/* Top row - 3 items */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          {wines.slice(0, 3).map((wine, index) => (
-            <motion.div
-              key={wine.name}
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ 
-                delay: index * 0.2, 
-                duration: 0.6,
-                type: "spring",  
-                stiffness: 300 
-              }}
-              className="relative group cursor-pointer"
-            >
-              <div 
-                className={`w-72 h-72 rounded-2xl bg-gradient-to-br ${wine.gradient} shadow-elegant 
-                           border border-white/10 backdrop-blur-sm overflow-hidden mx-auto`}
+      {/* Main content container for all wines */}
+      <div className="w-full max-w-7xl flex flex-col items-center gap-16">
+        {wines.map((wine, index) => (
+          <motion.div
+            key={wine.name}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true, amount: 0.5 }}
+            // Use flex-row-reverse for every other card (odd index)
+            className={`w-full rounded-3xl shadow-elegant backdrop-blur-sm overflow-hidden 
+                       flex flex-col p-8 lg:p-16 relative md:flex-row ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
+            style={{ background: `linear-gradient(to bottom right, ${wine.gradient.replace('from-', '#').replace('to-', '#')})` }}
+          >
+            {/* Title and Description */}
+            <div className="flex-1 flex flex-col justify-center text-left space-y-4 pr-0 md:pr-12">
+              <motion.h3
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                viewport={{ once: true, amount: 0.5 }}
+                className="font-miluena-bold text-6xl md:text-8xl"
+                style={{ color: wine.titleColor }}
               >
-                {/* Animated background pattern */}
-                <div className="absolute inset-0 opacity-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-20 -left-20 w-40 h-40 border border-white/20 rounded-full"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10 p-8 h-full flex flex-col justify-between">
-                  <div>
-                    <motion.h3
-                      className="text-white font-miluena-bold text-2xl mb-3"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: index * 0.2 + 0.3 }}
-                    >
-                      {wine.name}
-                    </motion.h3>
-                    <motion.p
-                      className="text-white/80 text-base leading-relaxed"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: index * 0.2 + 0.5 }}
-                    >
-                      {wine.description}
-                    </motion.p>
-                  </div>
-
-                  {/* Decorative wine glass icon */}
-                  <motion.div
-                    className="self-end"
-                    whileHover={{ scale: 1.2, rotate: 10 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-white/60">
-                      <path
-                        d="M8 2h8v4.5c0 1.38-.56 2.63-1.46 3.54L12 12.58l-2.54-2.54C8.56 9.13 8 7.88 8 6.5V2z"
-                        fill="currentColor"
-                        opacity="0.7"
-                      />
-                      <rect x="11" y="12" width="2" height="8" fill="currentColor" opacity="0.7" />
-                      <ellipse cx="12" cy="21" rx="3" ry="1" fill="currentColor" opacity="0.7" />
-                    </svg>
-                  </motion.div>
-                </div>
-
-                {/* Hover glow effect */}
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                  style={{ backgroundColor: wine.color }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Bottom row - 2 items centered */}
-        <div className="flex justify-center gap-8">
-          {wines.slice(3, 5).map((wine, index) => (
-            <motion.div
-              key={wine.name}
-              initial={{ opacity: 0, y: 50, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              whileHover={{ scale: 1.05, y: -10 }}
-              transition={{ 
-                delay: (index + 3) * 0.2, 
-                duration: 0.6,
-                type: "spring",  
-                stiffness: 300 
-              }}
-              className="relative group cursor-pointer"
-            >
-              <div 
-                className={`w-72 h-72 rounded-2xl bg-gradient-to-br ${wine.gradient} shadow-elegant 
-                           border border-white/10 backdrop-blur-sm overflow-hidden`}
+                {wine.name}
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4, duration: 0.8 }}
+                viewport={{ once: true, amount: 0.5 }}
+                className="text-white/80 text-lg md:text-xl leading-relaxed"
               >
-                {/* Animated background pattern */}
-                <div className="absolute inset-0 opacity-20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute -top-20 -left-20 w-40 h-40 border border-white/20 rounded-full"
-                  />
-                </div>
+                {wine.description}
+              </motion.p>
+            </div>
 
-                {/* Content */}
-                <div className="relative z-10 p-8 h-full flex flex-col justify-between">
-                  <div>
-                    <motion.h3
-                      className="text-white font-miluena-bold text-2xl mb-3"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: (index + 3) * 0.2 + 0.3 }}
-                    >
-                      {wine.name}
-                    </motion.h3>
-                    <motion.p
-                      className="text-white/80 text-base leading-relaxed"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      transition={{ delay: (index + 3) * 0.2 + 0.5 }}
-                    >
-                      {wine.description}
-                    </motion.p>
-                  </div>
-
-                  {/* Decorative wine glass icon */}
-                  <motion.div
-                    className="self-end"
-                    whileHover={{ scale: 1.2, rotate: 10 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-white/60">
-                      <path
-                        d="M8 2h8v4.5c0 1.38-.56 2.63-1.46 3.54L12 12.58l-2.54-2.54C8.56 9.13 8 7.88 8 6.5V2z"
-                        fill="currentColor"
-                        opacity="0.7"
-                      />
-                      <rect x="11" y="12" width="2" height="8" fill="currentColor" opacity="0.7" />
-                      <ellipse cx="12" cy="21" rx="3" ry="1" fill="currentColor" opacity="0.7" />
-                    </svg>
-                  </motion.div>
-                </div>
-
-                {/* Hover glow effect */}
-                <motion.div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                  style={{ backgroundColor: wine.color }}
-                />
-              </div>
-            </motion.div>
-          ))}
-        </div>
+            {/* Product Image */}
+            <div className="flex-1 flex justify-center items-center mt-8 md:mt-0">
+              <motion.img
+                src={wine.image}
+                alt={`${wine.name} bottle`}
+                initial={{ opacity: 0, scale: 0.8, rotate: index % 2 !== 0 ? 15 : -15 }}
+                whileInView={{ opacity: 1, scale: 1, rotate: index % 2 !== 0 ? 15 : -15 }}
+                transition={{ delay: 0.3, duration: 0.8, type: "spring", stiffness: 200 }}
+                viewport={{ once: true, amount: 0.5 }}
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+          </motion.div>
+        ))}
       </div>
-
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="text-foreground/70 text-center mt-12 max-w-2xl"
-      >
-        Each flavor tells a story of innovation, crafted with precision and passion 
-        to deliver an experience beyond the ordinary.
-      </motion.p>
     </div>
   );
 };

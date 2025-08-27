@@ -6,7 +6,7 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   // Set base path conditionally: '/' for development, '/tannin-website/' for production
-  base: mode === "production" ? "/tannin-website/" : "/",
+  base: mode === "production" ? "/tannin-website" : "/",
 
   server: {
     host: "::",

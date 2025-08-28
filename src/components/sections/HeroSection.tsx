@@ -6,21 +6,21 @@ const HeroSection = () => {
   return (
     <div className="h-screen flex items-center justify-center relative bg-gradient-hero">
       
-      {/* Video Container - This ensures proper positioning */}
+      {/* Video Container */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-contain opacity-30"
+          className="w-full h-full object-cover opacity-30"
         >
           <source src={tanninAnim} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
 
-      {/* Background particles/bubbles effect - Now layered above the video */}
+      {/* Background particles/bubbles */}
       <div className="absolute inset-0 overflow-hidden z-10">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -43,12 +43,12 @@ const HeroSection = () => {
         ))}
       </div>
 
-      <div className="text-center z-20 max-w-4xl mx-auto px-6">
+      <div className="text-center z-20 max-w-4xl mx-auto px-4 sm:px-6">
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-6xl md:text-8xl font-miluena-bold text-gradient-gold mb-6"
+          className="text-4xl sm:text-6xl md:text-8xl font-miluena-bold text-gradient-gold mb-4 sm:mb-6 leading-tight"
         >
           tannin
         </motion.h1>
@@ -57,7 +57,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
-          className="text-xl md:text-2xl text-foreground/80 mb-8 font-light leading-relaxed"
+          className="text-base sm:text-xl md:text-2xl text-foreground/80 mb-6 sm:mb-8 font-light leading-relaxed px-2"
         >
           Reimagining wine for the modern palate
         </motion.p>
@@ -66,7 +66,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.8 }}
-          className="text-lg text-foreground/60 max-w-2xl mx-auto leading-relaxed font-light"
+          className="text-sm sm:text-lg text-foreground/60 max-w-xl sm:max-w-2xl mx-auto leading-relaxed font-light px-2"
         >
           Where tradition meets innovation. Crafted from nature's finest fruits and vegetables,
           our wines celebrate flavour, wellness, and creativity.
@@ -77,18 +77,18 @@ const HeroSection = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2, duration: 1 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+          className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-tannin-gold/60 text-sm"
+            className="text-tannin-gold/60 text-xs sm:text-sm"
           >
-            <div className="w-6 h-10 border-2 border-tannin-gold/40 rounded-full mx-auto mb-2">
+            <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-tannin-gold/40 rounded-full mx-auto mb-1 sm:mb-2">
               <motion.div
                 animate={{ y: [0, 16, 0] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="w-1 h-3 bg-tannin-gold/60 rounded-full mx-auto mt-1"
+                className="w-1 h-2 sm:h-3 bg-tannin-gold/60 rounded-full mx-auto mt-1"
               />
             </div>
             <span className="font-light">Scroll to explore</span>

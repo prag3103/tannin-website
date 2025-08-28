@@ -1,6 +1,6 @@
 #root {
-  /* Removed fixed max-width, margin, and padding to allow for full-width layout */
-  text-align: center;
+  /* Removed fixed max-width, margin, padding and text-align to allow for full-width layout */
+  width: 100%;
 }
 
 .logo {

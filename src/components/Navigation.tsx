@@ -21,7 +21,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
 
   return (
     <motion.nav 
-      className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3 sm:py-4"
+      className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 py-3 sm:py-4 bg-background/70 backdrop-blur-md border-b border-tannin-gold/20"
       initial={{ opacity: 0, y: -50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2, duration: 0.8 }}
@@ -29,11 +29,11 @@ const Navigation = ({ activeSection }: NavigationProps) => {
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         
         {/* Logo */}
-        <div className="flex items-center space-x-2 sm:space-x-3">
+        <div className="flex items-center">
           <img 
             src={logo} 
             alt="Tannin Logo" 
-            className="h-10 sm:h-20 md:h-28 lg:h-32 w-auto"
+            className="h-8 sm:h-12 md:h-16 lg:h-20 w-auto" // smaller sizes for mobile
           />
         </div>
 
@@ -87,7 +87,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
 
       {/* Mobile Dropdown Menu */}
       {isOpen && (
-        <div className="md:hidden mt-3 bg-tannin-gold/10 backdrop-blur-md rounded-lg border border-tannin-gold/20 p-3 absolute right-4 top-full w-44">
+        <div className="md:hidden mt-3 bg-background/95 backdrop-blur-md rounded-lg border border-tannin-gold/20 p-3 absolute right-4 top-full w-44 shadow-lg">
           <div className="flex flex-col space-y-2">
             {navItems.map((item, index) => (
               <button

@@ -11,7 +11,8 @@ const ExperienceSection = () => {
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl font-miluena-bold text-tannin-gold mb-8"
+          className="text-5xl font-miluena-bold mb-8"
+          style={{ color: '	 #997a00' }}
         >
           EXPERIENCE
         </motion.h2>
@@ -41,11 +42,11 @@ const ExperienceSection = () => {
               className="group relative"
             >
               <div className="w-20 h-20 rounded-full bg-tannin-gold/20 backdrop-blur-md border border-tannin-gold/30 flex items-center justify-center transition-all duration-300 group-hover:bg-tannin-gold/30 group-hover:scale-110">
-                <svg 
-                  width="32" 
-                  height="32" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="none"
                   className="text-tannin-gold ml-1"
                 >
                   <path
@@ -54,7 +55,7 @@ const ExperienceSection = () => {
                   />
                 </svg>
               </div>
-              
+
               {/* Ripple effect */}
               <motion.div
                 className="absolute inset-0 rounded-full border-2 border-tannin-gold/30"
@@ -66,7 +67,7 @@ const ExperienceSection = () => {
 
           {/* Video overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          
+
           {/* Video description */}
           <div className="absolute bottom-6 left-6 right-6">
             <motion.div
@@ -100,6 +101,7 @@ const ExperienceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4, duration: 0.8 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
+          style={{ color: '	 #997a00' }}
         >
           {[
             {
@@ -126,7 +128,7 @@ const ExperienceSection = () => {
               className="text-center"
             >
               <div className="text-3xl mb-3">{item.icon}</div>
-              <h4 className="text-tannin-gold font-miluena-bold text-lg mb-2">
+              <h4 className={`font-miluena-bold text-lg mb-2 ${item.title === 'Sustainability' ? 'text-[#cca300]' : 'text-tannin-gold'}`}>
                 {item.title}
               </h4>
               <p className="text-foreground/70 text-sm">

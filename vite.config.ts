@@ -19,6 +19,8 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
   ].filter(Boolean),
 
+  assetsInclude: ['**/*.glb'], // This line tells Vite to treat all .glb files as assets
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

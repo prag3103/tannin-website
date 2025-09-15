@@ -28,26 +28,26 @@ const Navigation = ({ activeSection }: NavigationProps) => {
     >
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         
-        {/* Logo */}
+        {/* Logo (bigger on mobile, same on larger screens) */}
         <div className="flex items-center">
           <img 
             src={logo} 
             alt="Tannin Logo" 
-            className="h-8 sm:h-12 md:h-16 lg:h-20 w-auto"
+            className="h-14 sm:h-16 md:h-20 lg:h-24 w-auto" 
           />
         </div>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:block bg-tannin-gold/10 rounded-full px-6 py-2">
+        {/* Desktop Menu (restored pill-style background) */}
+        <div className="hidden md:flex items-center bg-tannin-gold/20 backdrop-blur-md rounded-full px-8 py-3 shadow-md">
           <div className="flex items-center space-x-6">
             {navItems.map((item, index) => (
               <button
                 key={item}
                 onClick={() => scrollToSection(index)}
-                className={`relative px-3 py-2 rounded-full font-miluena text-sm font-medium transition-all duration-300 ${
+                className={`relative px-4 py-2 rounded-full font-miluena text-base font-medium transition-all duration-300 ${
                   activeSection === index
-                    ? 'text-tannin-gold bg-tannin-gold/20'
-                    : 'text-foreground hover:text-tannin-gold hover:bg-tannin-gold/10'
+                    ? 'text-tannin-gold bg-tannin-gold/30'
+                    : 'text-foreground hover:text-tannin-gold hover:bg-tannin-gold/20'
                 }`}
               >
                 {item}
@@ -72,7 +72,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
             {isOpen ? (
               // Close (X) icon
               <svg 
-                className="w-6 h-6" 
+                className="w-7 h-7" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24" 
@@ -83,7 +83,7 @@ const Navigation = ({ activeSection }: NavigationProps) => {
             ) : (
               // Hamburger icon
               <svg 
-                className="w-6 h-6" 
+                className="w-7 h-7" 
                 fill="none" 
                 stroke="currentColor" 
                 viewBox="0 0 24 24" 

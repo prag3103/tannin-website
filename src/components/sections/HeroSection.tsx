@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-import tanninAnim from '../../assets/tannin website video 2.mp4'; 
+import tanninAnim from '../../assets/timeline3.mp4'; 
 
 const HeroSection = () => {
   return (

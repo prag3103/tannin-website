@@ -156,7 +156,8 @@ const ContactSection = () => {
             <span className="text-tannin-gold font-miluena-bold text-lg">tannin</span>
           </div>
           <p className="text-foreground/60 text-sm">
-            Reimagining wine for the modern palate
+            Tannin Beverages Private Limited 
+Sy.no. 489/P, KIADB Industrial Area, Jigani village , Jigani Holli Anekal Taluk, Bengaluru - 560105.
           </p>
         </motion.div>
       </div>

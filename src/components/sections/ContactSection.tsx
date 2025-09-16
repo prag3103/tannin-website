@@ -1,3 +1,4 @@
+// src/components/sections/VContactSection.tsx
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -15,7 +16,7 @@ const ContactSection = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-hero px-6">
+    <div className="flex items-center justify-center bg-gradient-hero px-6 md:h-screen">
       <div className="max-w-4xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Contact info */}

@@ -1,3 +1,4 @@
+// src/components/sections/ExperienceSection.tsx
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
@@ -5,14 +6,14 @@ const ExperienceSection = () => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-hero px-6">
+    <div className="flex items-center justify-center bg-gradient-hero px-6 md:h-screen">
       <div className="max-w-4xl mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: -50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-5xl font-miluena-bold mb-8"
-          style={{ color: '	 #997a00' }}
+          style={{ color: ' #997a00' }}
         >
           EXPERIENCE
         </motion.h2>
@@ -101,7 +102,7 @@ const ExperienceSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4, duration: 0.8 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16"
-          style={{ color: '	 #997a00' }}
+          style={{ color: ' #997a00' }}
         >
           {[
             {

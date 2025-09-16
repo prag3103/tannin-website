@@ -22,12 +22,12 @@ type Pointer = { x: number; y: number };
 
 // ✅ Adjustable params for mobile (<700px only)
 const mobileConfig = {
-  modelWidth: 120,     // px
-  modelHeight: 200,    // px
-  modelScale: 6.5,     // 3D scale
-  modelPosition: [45, -190, 45] as [number, number, number],
-  bottleWidth: 120,    // px
-  gap: 6,              // Tailwind gap-x-[value] -> here it's "gap-6"
+  modelWidth: 130, // px
+  modelHeight: 250, // px
+  modelScale: 6.5, // 3D scale
+  modelPosition: [100, -140, 100] as [number, number, number],
+  bottleWidth: 150, // px
+  gap: 6, // Tailwind gap-x-[value] -> here it's "gap-6"
 };
 
 function RotatingModel({ children }: { children: React.ReactNode }) {
@@ -246,7 +246,7 @@ const CatalogueSection: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col items-center pt-16 sm:pt-24 pb-12 sm:pb-16 bg-gradient-about">
+    <div className="flex flex-col items-center pt-16 sm:pt-24 bg-gradient-about pb-12 sm:pb-16 md:pb-24">
       <motion.h2
         initial={{ opacity: 0, y: -50 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -349,13 +349,13 @@ const CatalogueSection: React.FC = () => {
           ],
           "55%",
           "55%",
-          "30px",
+          "20px",
           "100px"
         )}
       </div>
 
       {/* Mobile */}
-      <div className="block md:hidden w-full overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-p-4 sm:scroll-p-6">
+      <div className="block md:hidden w-full overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-p-4 sm:scroll-p-6 pb-12">
         <div className="flex flex-row space-x-4 px-4 sm:px-6">
           <MobileCard
             key="citrine-mobile"

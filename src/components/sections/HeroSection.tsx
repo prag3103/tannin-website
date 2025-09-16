@@ -13,7 +13,8 @@ const HeroSection = () => {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-30"
+          // Changes made to this line
+          className="w-full h-full object-cover opacity-30 md:scale-100 sm:scale-150 lg:scale-100"
         >
           <source src={tanninAnim} type="video/mp4" />
           Your browser does not support the video tag.

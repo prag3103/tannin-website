@@ -20,7 +20,16 @@ import JadeiteModel from "@/assets/3d/Jadeite";
 
 type Pointer = { x: number; y: number };
 
-// Reusable rotating wrapper
+// ✅ Adjustable params for mobile (<700px only)
+const mobileConfig = {
+  modelWidth: 120,     // px
+  modelHeight: 200,    // px
+  modelScale: 6.5,     // 3D scale
+  modelPosition: [45, -190, 45] as [number, number, number],
+  bottleWidth: 120,    // px
+  gap: 6,              // Tailwind gap-x-[value] -> here it's "gap-6"
+};
+
 function RotatingModel({ children }: { children: React.ReactNode }) {
   const ref = useRef<Group | null>(null);
   const rotationSpeed = (2 * Math.PI) / 80;
@@ -38,6 +47,89 @@ function RotatingModel({ children }: { children: React.ReactNode }) {
   );
 }
 
+type MobileCardProps = {
+  name: string;
+  Model: React.FC;
+  bottle: string;
+  titleColor: string;
+  textColor: string;
+  mobileLabels: string[];
+};
+
+const MobileCard: React.FC<MobileCardProps> = ({
+  name,
+  Model,
+  bottle,
+  titleColor,
+  textColor,
+  mobileLabels,
+}) => (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.6 }}
+    viewport={{ once: true, amount: 0.5 }}
+    className="flex-shrink-0 w-full snap-center rounded-xl shadow-elegant backdrop-blur-sm overflow-hidden p-6 relative flex flex-col items-center"
+    style={{ backgroundColor: "#0f010c" }}
+  >
+    <div className="w-full text-center mb-6">
+      <h3 className="font-miluena-bold text-3xl" style={{ color: titleColor }}>
+        {name}
+      </h3>
+    </div>
+
+    {/* ✅ Mobile only: side by side, fully configurable */}
+    <div
+      className="flex flex-row items-center justify-center w-full"
+      style={{ gap: `${mobileConfig.gap * 0.25}rem` }} // tailwind gap-6 = 1.5rem
+    >
+      {/* 3D Model */}
+      <div
+        style={{
+          width: `${mobileConfig.modelWidth}px`,
+          height: `${mobileConfig.modelHeight}px`,
+        }}
+        className="flex items-center justify-center"
+      >
+        <Canvas camera={{ position: [300, 0, 400], fov: 35 }}>
+          <ambientLight intensity={1.5} />
+          <directionalLight position={[-10, 10, 10]} intensity={1.0} />
+          <Suspense fallback={null}>
+            <group
+              scale={mobileConfig.modelScale}
+              position={mobileConfig.modelPosition}
+            >
+              <RotatingModel>
+                <Model />
+              </RotatingModel>
+            </group>
+          </Suspense>
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            target={[45, -70, 45]}
+          />
+        </Canvas>
+      </div>
+
+      {/* Bottle Image */}
+      <img
+        src={bottle}
+        alt={`${name} bottle`}
+        style={{ width: `${mobileConfig.bottleWidth}px` }}
+        className="h-auto object-contain brightness-75 contrast-125 saturate-90"
+      />
+    </div>
+
+    {/* Labels */}
+    <div className="mt-4 text-center w-full">
+      <p className={`text-xl font-miluena text-center mx-auto ${textColor}`}>
+        {mobileLabels[0]}
+      </p>
+    </div>
+  </motion.div>
+);
+
 const CatalogueSection: React.FC = () => {
   const [pointer, setPointer] = useState<Pointer>({ x: 0, y: 0 });
 
@@ -50,7 +142,7 @@ const CatalogueSection: React.FC = () => {
 
   const handlePointerLeave = () => setPointer({ x: 0, y: 0 });
 
-  // Card renderer for 3D-based wines
+  // Desktop Card renderer (unchanged)
   const renderWineCard = (
     name: string,
     Model: React.FC,
@@ -59,24 +151,10 @@ const CatalogueSection: React.FC = () => {
     borderColor: string,
     textColor: string,
     labels: string[],
-    mobileLabels: string[],
     labelTop: string,
     labelLeft: string,
     titleTop: string,
-    titleRight: string,
-    mobileStyles: {
-      modelContainer?: string;
-      bottleImage?: string;
-      title?: string;
-      label?: string;
-      mainContainer?: string;
-      elementStyles?: {
-        model?: React.CSSProperties;
-        bottle?: React.CSSProperties;
-        title?: React.CSSProperties;
-        label?: React.CSSProperties;
-      };
-    } = {}
+    titleRight: string
   ) => (
     <motion.div
       key={name}
@@ -84,7 +162,7 @@ const CatalogueSection: React.FC = () => {
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6 }}
       viewport={{ once: true, amount: 0.5 }}
-      className={`mt-6 w-full rounded-1xl shadow-elegant backdrop-blur-sm overflow-hidden flex flex-col items-center p-6 sm:p-8 lg:p-12 relative ${mobileStyles.mainContainer || ''}`}
+      className="mt-6 w-full rounded-xl shadow-elegant backdrop-blur-sm overflow-hidden flex flex-col items-center p-6 sm:p-8 lg:p-12 relative"
       style={{ backgroundColor: "#0f010c" }}
     >
       <div
@@ -100,43 +178,6 @@ const CatalogueSection: React.FC = () => {
       </div>
 
       <div className="flex flex-col md:flex-row justify-center items-center gap-6 md:gap-12 w-full">
-        {/* Mobile-only layout with the 3D model and bottle side-by-side */}
-        <div className="md:hidden relative w-full h-80 flex items-center justify-center">
-          {/* Mobile Title & Label */}
-          <div className="absolute top-10 w-full text-center" style={mobileStyles.elementStyles?.title}>
-            <h3 className={`font-miluena-bold text-3xl ${mobileStyles.title || ''}`} style={{ color: titleColor }}>
-              {name}
-            </h3>
-            <p className={`text-sm font-miluena text-center px-4 mt-2 ${mobileStyles.label || ''}`} style={{ color: textColor }}>
-              {mobileLabels[0]}
-            </p>
-          </div>
-          
-          {/* 3D Model Container (Mobile) */}
-          <div className={`absolute w-[120px] h-[200px] ${mobileStyles.modelContainer || ''}`} style={mobileStyles.elementStyles?.model}>
-            <Canvas camera={{ position: [300, 0, 400], fov: 35 }}>
-              <ambientLight intensity={1.5} />
-              <directionalLight position={[-10, 10, 10]} intensity={1.0} />
-              <Suspense fallback={null}>
-                <group scale={6.5} position={[45, -190, 45]}>
-                  <RotatingModel>
-                    <Model />
-                  </RotatingModel>
-                </group>
-              </Suspense>
-              <OrbitControls enableZoom={false} enablePan={false} target={[45, -70, 45]} />
-            </Canvas>
-          </div>
-          
-          {/* Bottle Image (Mobile) */}
-          <motion.img
-            src={bottle}
-            alt={`${name} bottle`}
-            className={`absolute w-[120px] h-auto object-contain brightness-75 contrast-125 saturate-90 ${mobileStyles.bottleImage || ''}`}
-            style={mobileStyles.elementStyles?.bottle}
-          />
-        </div>
-
         {/* Desktop Layout - Hidden on mobile */}
         <div className="hidden md:flex flex-1 flex-row justify-center items-center gap-12 w-full">
           {/* 3D Model (Desktop) */}
@@ -156,7 +197,11 @@ const CatalogueSection: React.FC = () => {
                     </RotatingModel>
                   </group>
                 </Suspense>
-                <OrbitControls enableZoom={false} enablePan={false} target={[45, -70, 45]} />
+                <OrbitControls
+                  enableZoom={false}
+                  enablePan={false}
+                  target={[45, -70, 45]}
+                />
               </Canvas>
             </div>
           </div>
@@ -187,7 +232,11 @@ const CatalogueSection: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.8 + i * 0.2, duration: 0.6 }}
             viewport={{ once: true }}
-            className={`relative w-72 p-3 rounded-md bg-transparent border ${borderColor} ${textColor} text-base before:content-[''] before:absolute before:left-[-70px] before:top-1/2 before:-translate-y-1/2 before:w-[60px] before:h-[2px] before:${borderColor}`}
+            className={`relative w-72 p-3 rounded-md bg-transparent border ${borderColor} ${textColor} text-base before:content-[''] before:absolute before:left-[-70px] before:top-1/2 before:-translate-y-1/2 before:w-[60px] before:h-[2px]`}
+            style={{
+              borderColor: borderColor.replace("border-", ""),
+              color: textColor.replace("text-", ""),
+            }}
           >
             <p>{text}</p>
           </motion.div>
@@ -207,7 +256,8 @@ const CatalogueSection: React.FC = () => {
         OUR COLLECTION
       </motion.h2>
 
-      <div className="w-full max-w-7xl flex flex-col items-center gap-12 sm:gap-16 px-4">
+      {/* Desktop */}
+      <div className="hidden md:flex w-full max-w-7xl flex-col items-center gap-12 sm:gap-16 px-4">
         {/* Citrine */}
         {renderWineCard(
           "CITRINE",
@@ -215,41 +265,16 @@ const CatalogueSection: React.FC = () => {
           citrineImage,
           "#ffa366",
           "border-[#ffa366]",
-          "border-[#ffa366]",
+          "text-[#ffa366]",
           [
             "The sweetest of them all.",
-            "A vibrant citrusy wine with playful notes.Citrine is the most playful and indulgent wine in our collection. Sweet, vibrant, and irresistibly smooth,",
-            "Perfect for bright, sunny days.it delights the palate with layers of citrusy freshness balanced by a honeyed finish. Every sip feels bright and golden — a cheerful celebration in a glass"
+            "A vibrant citrusy wine with playful notes. Citrine is the most playful and indulgent wine in our collection.",
+            "Perfect for bright, sunny days. It delights the palate with layers of citrusy freshness balanced by a honeyed finish.",
           ],
-          ["A vibrant, citrusy and playful wine."],
           "55%",
           "56%",
           "30px",
-          "90px",
-          {
-            elementStyles: {
-              model: {
-                width: '120px',
-                height: '300px',
-                top: '30px',
-                left: '95px',
-              },
-              bottle: {
-                width: '130px',
-                height: 'auto',
-                top: '130px',
-                right: '100px',
-              },
-              title: {
-                top: '20px',
-                fontSize: '2rem',
-              },
-              label: {
-                top: '10px',
-                fontSize: '1rem',
-              },
-            }
-          }
+          "90px"
         )}
 
         {/* Carota */}
@@ -258,42 +283,17 @@ const CatalogueSection: React.FC = () => {
           CarotaModel,
           carotaImage,
           "#c86810",
-          "border-orange-500",
-          "text-orange-300",
+          "border-[#c86810]",
+          "text-[#c86810]",
           [
             "Carota captures the natural essence of carrots.",
-            "Smooth, earthy, and refreshing.— a gentle sweetness layered with a soft, earthy bitterness that lingers gracefully on the palate. ",
-            "A taste as unique as its origin.This delicate balance creates a refreshing and sophisticated wine, offering a truly one-of-a-kind tasting experience."
+            "Smooth, earthy, and refreshing — a gentle sweetness layered with a soft, earthy bitterness.",
+            "A taste as unique as its origin. A refreshing and sophisticated wine.",
           ],
-          ["An earthy and unique taste of carrots."],
           "55%",
           "55%",
           "20px",
-          "95px",
-          {
-            elementStyles: {
-              model: {
-                width: '120px',
-                height: '300px',
-                top: '30px',
-                left: '95px',
-              },
-              bottle: {
-                width: '140px',
-                height: 'auto',
-                top: '130px',
-                right: '100px',
-              },
-              title: {
-                top: '20px',
-                fontSize: '2rem',
-              },
-              label: {
-                top: '80px',
-                fontSize: '1rem',
-              },
-            }
-          }
+          "95px"
         )}
 
         {/* Scarlett */}
@@ -306,38 +306,13 @@ const CatalogueSection: React.FC = () => {
           "text-[#ff6666]",
           [
             "Nothing like you’ve ever tasted before.",
-            "Bold and unconventional, crafted from beetroots.Scarlet transforms the earthy richness of beetroots into a wine experience unlike any other.",
-            "A perfect balance of sweetness, earthiness, and velvety finish.Its deep ruby hue mirrors its intensity — a perfect balance of subtle sweetness, gentle earthiness, and a smooth, velvety finish. Each sip surprises the palate."
+            "Bold and unconventional, crafted from beetroots.",
+            "A perfect balance of sweetness, earthiness, and a velvety finish.",
           ],
-          ["Bold and unconventional, crafted from beetroots."],
           "55%",
           "55%",
           "20px",
-          "50px",
-          {
-            elementStyles: {
-              model: {
-                width: '120px',
-                height: '300px',
-                top: '30px',
-                left: '95px',
-              },
-              bottle: {
-                width: '130px',
-                height: 'auto',
-                top: '130px',
-                right: '100px',
-              },
-              title: {
-                top: '20px',
-                fontSize: '2rem',
-              },
-              label: {
-                top: '80px',
-                fontSize: '1rem',
-              },
-            }
-          }
+          "50px"
         )}
 
         {/* Pinechill */}
@@ -346,42 +321,17 @@ const CatalogueSection: React.FC = () => {
           PineChillModel,
           pinechillImage,
           "#cca300",
-          "border-pinechill-yellow",
-          "text-yellow-400",
+          "border-[#cca300]",
+          "text-[#cca300]",
           [
             "A tropical spark with a fiery twist.",
-            "Sweet pineapple meets subtle chilli heat.while a subtle hint of chilli teases the palate with warmth. Pinechill is bright, playful, and adventurous — the perfect harmony of refreshing fruit and gentle spice. ",
-            "Refreshing fruit with a lively kick.Each sip begins smooth and vibrant, finishing with a lively kick that keeps you coming back for mor"
+            "Sweet pineapple meets subtle chilli heat.",
+            "Refreshing fruit with a lively kick.",
           ],
-          ["A tropical spark with a fiery twist."],
           "55%",
           "55%",
           "20px",
-          "40px",
-          {
-            elementStyles: {
-              model: {
-                width: '120px',
-                height: '300px',
-                top: '30px',
-                left: '95px',
-              },
-              bottle: {
-                width: '140px',
-                height: 'auto',
-                top: '130px',
-                right: '100px',
-              },
-              title: {
-                top: '20px',
-                fontSize: '2rem',
-              },
-              label: {
-                top: '80px',
-                fontSize: '1rem',
-              },
-            }
-          }
+          "40px"
         )}
 
         {/* Jadeite */}
@@ -394,39 +344,65 @@ const CatalogueSection: React.FC = () => {
           "text-[#9fff80]",
           [
             "Where tart meets warmth.",
-            "Handpicked gooseberries bring a crisp tang, while a gentle touch of ginger adds warmth and depth. Bright, zesty, and soothing all at once.",
-            "A unique blend that soothes and excites.Each glass lingers with a playful sharpness mellowed by spice, making it both invigorating and comforting. A wine crafted for those who savor vibrancy with a twist"
+            "Gooseberries bring a crisp tang, ginger adds warmth.",
+            "A unique blend that soothes and excites.",
           ],
-          ["Where tart gooseberry meets warm ginger."],
           "55%",
           "55%",
           "30px",
-          "100px",
-          {
-            elementStyles: {
-              model: {
-                width: '120px',
-                height: '300px',
-                top: '30px',
-                left: '95px',
-              },
-              bottle: {
-                width: '120px',
-                height: 'auto',
-                top: '130px',
-                right: '100px',
-              },
-              title: {
-                top: '20px',
-                fontSize: '2rem',
-              },
-              label: {
-                top: '80px',
-                fontSize: '1rem',
-              },
-            }
-          }
+          "100px"
         )}
+      </div>
+
+      {/* Mobile */}
+      <div className="block md:hidden w-full overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-p-4 sm:scroll-p-6">
+        <div className="flex flex-row space-x-4 px-4 sm:px-6">
+          <MobileCard
+            key="citrine-mobile"
+            name="CITRINE"
+            Model={CitrineModel}
+            bottle={citrineImage}
+            titleColor="#ffa366"
+            textColor="text-[#ffa366]"
+            mobileLabels={["A vibrant, citrusy and playful wine."]}
+          />
+          <MobileCard
+            key="carota-mobile"
+            name="CAROTA"
+            Model={CarotaModel}
+            bottle={carotaImage}
+            titleColor="#c86810"
+            textColor="text-orange-300"
+            mobileLabels={["An earthy and unique taste of carrots."]}
+          />
+          <MobileCard
+            key="scarlett-mobile"
+            name="SCARLETT"
+            Model={ScarlettModel}
+            bottle={scarlettImage}
+            titleColor="#ff6666"
+            textColor="text-[#ff6666]"
+            mobileLabels={["Bold and unconventional, crafted from beetroots."]}
+          />
+          <MobileCard
+            key="pinechill-mobile"
+            name="PINECHILL"
+            Model={PineChillModel}
+            bottle={pinechillImage}
+            titleColor="#cca300"
+            textColor="text-yellow-400"
+            mobileLabels={["A tropical spark with a fiery twist."]}
+          />
+          <MobileCard
+            key="jadeite-mobile"
+            name="JADEITE"
+            Model={JadeiteModel}
+            bottle={jadeiteImage}
+            titleColor="#9fff80"
+            textColor="text-[#9fff80]"
+            mobileLabels={["Where tart gooseberry meets warm ginger."]}
+          />
+        </div>
       </div>
     </div>
   );

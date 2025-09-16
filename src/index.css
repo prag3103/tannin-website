@@ -220,3 +220,28 @@ All colors MUST be HSL.
   object-fit: cover;
   z-index: -2; /* Ensure it's behind the particles and content */
 }
+
+/* In your global CSS file, e.g., styles.css */
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+@media (max-height: 700px) {
+  /* Only affects the mobile cards' model + bottle row */
+  .mobile-center-layout {
+    width: 100%;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    gap: 1.5rem !important; /* matches gap-6 */
+  }
+}
